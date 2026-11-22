@@ -1,8 +1,7 @@
 :- use_module(library(lists), [permutation/2]).
 
-% candidate_solution(Solution) holds when Solution assigns every friend
-% one department, one language, and one project, using each value once.
-% The friends appear in the order Alex, Ben, Carla, Dana.
+% candidate_solution(Solution) holds when each friend has a department,
+% a language, and a project, with each attribute value used exactly once.
 candidate_solution([
     p('Alex',  AlexDept,  AlexLang,  AlexProject),
     p('Ben',   BenDept,   BenLang,   BenProject),
@@ -15,3 +14,45 @@ candidate_solution([
                 [AlexLang, BenLang, CarlaLang, DanaLang]),
     permutation(['AI', web, embedded, data],
                 [AlexProject, BenProject, CarlaProject, DanaProject]).
+
+% 1. The friend who prefers AI works outside research and is someone other than Dana.
+clue(1, Solution) :-
+    memberchk(p(Name, Dept, _, 'AI'), Solution),
+    Dept \== research,
+    Name \== 'Dana'.
+
+% 2. Alex works outside development and prefers a language other than C++.
+clue(2, Solution) :-
+    memberchk(p('Alex', Dept, Lang, _), Solution),
+    Dept \== development,
+    Lang \== 'c++'.
+
+% 3. The friend in testing prefers Python.
+clue(3, Solution) :-
+    memberchk(p(_, testing, python, _), Solution).
+
+% 4. Ben prefers web projects and works outside testing.
+clue(4, Solution) :-
+    memberchk(p('Ben', Dept, _, web), Solution),
+    Dept \== testing.
+
+% 5. The friend who prefers Java works in design.
+clue(5, Solution) :-
+    memberchk(p(_, design, java, _), Solution).
+
+% 6. Carla works outside development and prefers a project other than embedded.
+clue(6, Solution) :-
+    memberchk(p('Carla', Dept, _, Project), Solution),
+    Dept \== development,
+    Project \== embedded.
+
+% 7. Dana works in research or testing and prefers a language other than Java.
+clue(7, Solution) :-
+    memberchk(p('Dana', Dept, Lang, _), Solution),
+    Lang \== java,
+    memberchk(Dept, [research, testing]).
+
+% 8. The friend who prefers data projects works in research and prefers a language other than JavaScript.
+clue(8, Solution) :-
+    memberchk(p(_, research, Lang, data), Solution),
+    Lang \== javascript.
