@@ -70,9 +70,34 @@
           processed))))
 
 
-; S2.b Phase 4: Insert x into every list shorter than n.
-; Reuse insert-short-helper to process the top-level list
-; and all nested lists without duplicating the recursion.
+; S2.c Phase 2: Insert x into every list shorter than n.
+; Use make-inserter with a predicate that checks whether
+; the original list length is strictly less than n.
 
 (define (insert-if-short x lst n)
-  (insert-short-helper x lst n))
+  ((make-inserter x
+                  (lambda (len)
+                    (< len n)))
+   lst))
+
+
+; S2.c Phase 1: Create a higher-order nested-list inserter.
+; Return a function that recursively processes a given list.
+; Preserve atoms and process nested lists, including empty lists.
+; Check each list's original top-level length before insertion.
+; Insert x only when len-ok? accepts that original length.
+
+(define (make-inserter x len-ok?)
+  (lambda (lst)
+    (let loop ((current lst))
+      (let ((original-length (my-length current)))
+        (let ((processed
+               (my-map
+                (lambda (item)
+                  (if (or (pair? item) (null? item))
+                      (loop item)
+                      item))
+                current)))
+          (if (len-ok? original-length)
+              (cons x processed)
+              processed))))))
