@@ -52,3 +52,16 @@ format_operand(Side, ParentOperator, bin(ChildOperator, _, _), ChildText, Text) 
     ->  format(string(Text), '(~s)', [ChildText])
     ;   Text = ChildText
     ).
+
+% expression_string(Tree, Text) holds when Text is the decimal or infix
+% rendering of Tree with its grouping preserved.
+% A number is a leaf. For a binary node, render the two smaller trees
+% and format them as operands before joining them with the operator.
+expression_string(num(Number), Text) :-
+    format(string(Text), '~d', [Number]).
+expression_string(bin(Operator, LeftTree, RightTree), Text) :-
+    expression_string(LeftTree, LeftText),
+    expression_string(RightTree, RightText),
+    format_operand(left, Operator, LeftTree, LeftText, FormattedLeft),
+    format_operand(right, Operator, RightTree, RightText, FormattedRight),
+    format(string(Text), '~s~a~s', [FormattedLeft, Operator, FormattedRight]).
