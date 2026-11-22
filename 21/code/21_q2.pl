@@ -5,3 +5,17 @@
 split_nonempty([First, Next | Rest], [First], [Next | Rest]).
 split_nonempty([First | Rest], [First | Left], Right) :-
     split_nonempty(Rest, Left, Right).
+
+% apply_operator(Operator, LeftValue, RightValue, Value) holds when
+% Operator gives the integer Value for the two input integers.
+% Division requires a nonzero divisor and a zero remainder.
+apply_operator('+', LeftValue, RightValue, Value) :-
+    Value is LeftValue + RightValue.
+apply_operator('-', LeftValue, RightValue, Value) :-
+    Value is LeftValue - RightValue.
+apply_operator('*', LeftValue, RightValue, Value) :-
+    Value is LeftValue * RightValue.
+apply_operator('/', LeftValue, RightValue, Value) :-
+    RightValue =\= 0,
+    LeftValue rem RightValue =:= 0,
+    Value is LeftValue // RightValue.
