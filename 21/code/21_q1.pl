@@ -57,6 +57,10 @@ clue(8, Solution) :-
     memberchk(p(_, research, Lang, data), Solution),
     Lang \== javascript.
 
+% CLUE 9: The friend who prefers the AI project works in testing.
+clue(9, Solution) :-
+    memberchk(p(_, testing, _, 'AI'), Solution).
+
 % solve_p1(Solution) holds when a complete assignment satisfies clues 1 through 8.
 solve_p1(Solution) :-
     candidate_solution(Solution),
