@@ -228,3 +228,24 @@
   (list 'my-length (list 'quote large-list)))
  10000
  "S2 large-list length")
+
+; Exercise the public function on both sides of the 10,000-element boundary.
+(check-equal?
+ (solution-eval (list 'insert-if-short '(quote x) (list 'quote large-list) 10001))
+ (cons 'x large-list)
+ "S2 inserts into a 10,000-element list shorter than n")
+
+(check-equal?
+ (solution-eval (list 'insert-if-short '(quote x) (list 'quote large-list) 10000))
+ large-list
+ "S2 keeps a 10,000-element list of length exactly n")
+
+; Build 100 nested singleton lists around an empty list.
+(define-values (deep-list expected-deep-list)
+  (for/fold ([input '()] [expected '(x)]) ([_ (in-range 100)])
+    (values (list input) (list 'x expected))))
+
+(check-equal?
+ (solution-eval (list 'insert-if-short '(quote x) (list 'quote deep-list) 2))
+ expected-deep-list
+ "S2 inserts at every level of a depth-100 list")
