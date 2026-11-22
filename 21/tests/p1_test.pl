@@ -88,4 +88,23 @@ expected_output("Alex = [design, java, AI]\nBen = [development, javascript, web]
 expected_output("Alex = [design, java, embedded]\nBen = [development, javascript, web]\nCarla = [testing, python, AI]\nDana = [research, c++, data]\n").
 expected_output("Alex = [testing, python, embedded]\nBen = [development, javascript, web]\nCarla = [design, java, AI]\nDana = [research, c++, data]\n").
 
+test(original_eight_clues_have_three_solutions) :-
+    count_solutions([1,2,3,4,5,6,7,8], Count),
+    assertion(Count == 3).
+
+test(all_nine_clues_have_one_solution) :-
+    count_solutions([1,2,3,4,5,6,7,8,9], Count),
+    assertion(Count == 1).
+
+test(clue_9_accepts_only_the_intended_assignment_once) :-
+    findall(
+        Matches,
+        ( expected_solution(Solution),
+          findall(ok, clue(9, Solution), Matches)
+        ),
+        Results
+    ),
+    % In fixture order, only the second assignment should succeed.
+    assertion(Results == [[], [ok], []]).
+
 :- end_tests(p1_a).
