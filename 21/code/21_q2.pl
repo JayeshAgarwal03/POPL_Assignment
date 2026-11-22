@@ -37,3 +37,18 @@ operator_precedence('+', 1).
 operator_precedence('-', 1).
 operator_precedence('*', 2).
 operator_precedence('/', 2).
+
+% format_operand(Side, ParentOperator, ChildTree, ChildText, Text) holds
+% when Text preserves the child tree by adding parentheses where needed.
+% Numbers keep their text. Equal precedence needs parentheses on the right.
+format_operand(_, _, num(_), Text, Text).
+format_operand(Side, ParentOperator, bin(ChildOperator, _, _), ChildText, Text) :-
+    operator_precedence(ParentOperator, ParentRank),
+    operator_precedence(ChildOperator, ChildRank),
+    (   (   ChildRank < ParentRank
+        ;   Side == right,
+            ChildRank =:= ParentRank
+        )
+    ->  format(string(Text), '(~s)', [ChildText])
+    ;   Text = ChildText
+    ).
