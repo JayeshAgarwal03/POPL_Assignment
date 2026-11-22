@@ -1,3 +1,4 @@
+
 #lang racket/base
 
 ; Tests for S1.a: print-inorder.
@@ -130,3 +131,58 @@
  "S1.b asymmetric tree")
 
 (display "S1.b: all 7 tests passed\n")
+
+
+; S1.c: Capture the exact output of print-height-and-leaves.
+(define (height-and-leaves-output tree)
+  (define output (open-output-string))
+  (parameterize ([current-namespace solution-namespace]
+                 [current-output-port output])
+    (eval (list 'print-height-and-leaves (list 'quote tree))))
+  (get-output-string output))
+
+; Test 15: Balanced tree (assignment example).
+(check-equal?
+ (height-and-leaves-output t1)
+ "(3 4)\n"
+ "S1.c balanced tree")
+
+; Test 16: Right-skewed tree (assignment example).
+(check-equal?
+ (height-and-leaves-output t2)
+ "(3 1)\n"
+ "S1.c right-skewed tree")
+
+; Test 17: Symbol-valued tree (assignment example).
+(check-equal?
+ (height-and-leaves-output t3)
+ "(2 2)\n"
+ "S1.c symbol tree")
+
+; Test 18: Empty tree (assignment example).
+(check-equal?
+ (height-and-leaves-output '())
+ "(0 0)\n"
+ "S1.c empty tree")
+
+; Test 19: Single-node tree.
+(check-equal?
+ (height-and-leaves-output '(42 () ()))
+ "(1 1)\n"
+ "S1.c single-node tree")
+
+; Test 20: Left-skewed tree.
+(check-equal?
+ (height-and-leaves-output '(3 (2 (1 () ()) ()) ()))
+ "(3 1)\n"
+ "S1.c left-skewed tree")
+
+; Test 21: Asymmetric tree.
+(check-equal?
+ (height-and-leaves-output
+  '(8 (3 () (6 (4 () ()) ()))
+      (10 () (14 (13 () ()) ()))))
+ "(4 2)\n"
+ "S1.c asymmetric tree")
+
+(display "S1.c: all 7 tests passed\n")

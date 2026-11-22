@@ -74,3 +74,41 @@
   (newline)
   (display (my-postorder tree))
   (newline))
+
+
+; S1.c Phase 1: Calculate the height of a binary tree.
+; Base case: An empty tree has height 0.
+; Recursive step: The height of a nonempty tree is 1 plus
+; the maximum height of its left and right subtrees.
+
+(define (my-height tree)
+  (if (null? tree)
+      0
+      (+ 1
+         (max (my-height (cadr tree))
+              (my-height (caddr tree))))))
+
+
+; S1.c Phase 2: Count the leaf nodes of a binary tree.
+; Empty-tree case: An empty tree has 0 leaves.
+; Leaf-node case: A node with both subtrees empty has 1 leaf.
+; Recursive step: Add the leaf counts of the left and right subtrees.
+
+(define (my-leaf-count tree)
+  (if (null? tree)
+      0
+      (if (and (null? (cadr tree))
+               (null? (caddr tree)))
+          1
+          (+ (my-leaf-count (cadr tree))
+             (my-leaf-count (caddr tree))))))
+
+
+; S1.c Phase 3: Print the height and leaf count of a binary tree.
+; Combine the height and leaf count into a two-element list.
+; Display the list followed by exactly one newline.
+
+(define (print-height-and-leaves tree)
+  (display (list (my-height tree)
+                 (my-leaf-count tree)))
+  (newline))
