@@ -61,3 +61,11 @@ clue(8, Solution) :-
 solve_p1(Solution) :-
     candidate_solution(Solution),
     forall(between(1, 8, Number), clue(Number, Solution)).
+
+% main prints the first valid assignment, one line per friend.
+main :-
+    once(solve_p1(Solution)),
+    forall(
+        member(p(Name, Dept, Lang, Project), Solution),
+        format('~a = [~a, ~a, ~a]~n', [Name, Dept, Lang, Project])
+    ).
