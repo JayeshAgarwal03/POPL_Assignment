@@ -19,3 +19,14 @@ apply_operator('/', LeftValue, RightValue, Value) :-
     RightValue =\= 0,
     LeftValue rem RightValue =:= 0,
     Value is LeftValue // RightValue.
+
+% expression(Numbers, Tree, Value) holds when Tree uses Numbers in order
+% and evaluates to the integer Value.
+% A singleton list gives a leaf. For a longer list, recursively build trees
+% for the two shorter lists from an ordered split and apply an operator.
+expression([Number], num(Number), Number).
+expression(Numbers, bin(Operator, LeftTree, RightTree), Value) :-
+    split_nonempty(Numbers, LeftNumbers, RightNumbers),
+    expression(LeftNumbers, LeftTree, LeftValue),
+    expression(RightNumbers, RightTree, RightValue),
+    apply_operator(Operator, LeftValue, RightValue, Value).
