@@ -5,7 +5,7 @@ description: Use for one function, one test file, or one review in the Racket Sc
 
 ## Environment and workflow
 
-Use Racket 8.x. The first line of each submitted file must be `#lang racket/base`. Put S1 in `code/id_q3.rkt` and S2 in `code/id_q4.rkt`, replacing `id` with the group ID.
+Use Racket 8.x. The first line of each submitted file must be `#lang racket/base`. Put S1 in `code/21_q3.rkt` and S2 in `code/21_q4.rkt`.
 
 Handle one unit per prompt. Copy the prompt word for word into `prompts/S1.md` or `prompts/S2.md`. Keep commits aligned with the units completed.
 
@@ -34,25 +34,25 @@ Do not use mutation, vectors, hash tables, strings, `do`, or `for`. Built-ins su
 
 ## Running and testing
 
-Run these commands from the repository root after replacing `id` with the group ID:
+From the `21/` directory, run:
 
 ```sh
 racket --version
-racket code/id_q3.rkt
-racket code/id_q4.rkt
+racket code/21_q3.rkt
+racket code/21_q4.rkt
 ```
 
 Both submitted files should load silently. The grader appends calls to each file. To reproduce that behavior locally, append a call to a temporary copy:
 
 ```sh
 test_file=$(mktemp)
-cp code/id_q3.rkt "$test_file"
+cp code/21_q3.rkt "$test_file"
 printf '\n%s\n' "(print-height-and-leaves '())" >> "$test_file"
 racket "$test_file"
 rm "$test_file"
 ```
 
-The expected output is `(0 0)` followed by a newline. For S2, use a temporary copy of `id_q4.rkt`, append `(print-insert-result)`, and run it with `7 () 3` on standard input. The expected output is `(7)` followed by a newline.
+The expected output is `(0 0)` followed by a newline. For S2, use a temporary copy of `21_q4.rkt`, append `(print-insert-result)`, and run it with `7 () 3` on standard input. The expected output is `(7)` followed by a newline.
 
 Keep one test file per problem in `tests/`. Include the handout examples and your own edge cases. Use an asymmetric tree to expose traversal-order mistakes. For S2, test an empty nested list and a list whose length is exactly `n`.
 

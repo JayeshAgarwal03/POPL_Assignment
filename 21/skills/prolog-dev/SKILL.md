@@ -5,7 +5,7 @@ description: Use for one predicate, one test file, or one review in the SWI-Prol
 
 ## Environment and workflow
 
-Use SWI-Prolog 9.x. Put P1 in `code/id_q1.pl` and P2 in `code/id_q2.pl`, replacing `id` with the group ID.
+Use SWI-Prolog 9.x. Put P1 in `code/21_q1.pl` and P2 in `code/21_q2.pl`.
 
 Handle one unit per prompt. Copy the prompt word for word into `prompts/P1.md` or `prompts/P2.md`. Keep commits aligned with the units completed.
 
@@ -25,13 +25,13 @@ Handle one unit per prompt. Copy the prompt word for word into `prompts/P1.md` o
 
 ## Running and testing
 
-Run these commands from the repository root after replacing `id` with the group ID:
+From the `21/` directory, run:
 
 ```sh
 swipl --version
-swipl -q -f code/id_q1.pl -g main -t halt
-swipl -q -f code/id_q1.pl -g "count_solutions([1,2,3,4,5,6,7,8,9],1)" -t halt
-swipl -q -f code/id_q2.pl -g 'all_equations([2,4,8],["2*4=8"])' -t halt
+swipl -q -f code/21_q1.pl -g main -t halt
+swipl -q -f code/21_q1.pl -g "count_solutions([1,2,3,4,5,6,7,8,9],1)" -t halt
+swipl -q -f code/21_q2.pl -g 'all_equations([2,4,8],["2*4=8"])' -t halt
 ```
 
 For the last two commands, exit status 0 means the query succeeded. Keep one test file per problem in `tests/`. Include the handout examples and your own edge cases. For P2, check both a query that should fail and a query that should succeed with an empty result list. For P1, test different active-clue lists.
