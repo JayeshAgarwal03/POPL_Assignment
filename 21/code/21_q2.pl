@@ -76,3 +76,9 @@ generate_equation(List, Equation) :-
     expression_string(LeftTree, LeftText),
     expression_string(RightTree, RightText),
     format(string(Equation), '~s=~s', [LeftText, RightText]).
+
+% all_equations(List, Equations) holds when Equations is the sorted list
+% of distinct equation strings generated from List.
+all_equations(List, Equations) :-
+    findall(Equation, generate_equation(List, Equation), UnsortedEquations),
+    sort(UnsortedEquations, Equations).
