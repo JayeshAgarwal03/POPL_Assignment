@@ -65,3 +65,14 @@ expression_string(bin(Operator, LeftTree, RightTree), Text) :-
     format_operand(left, Operator, LeftTree, LeftText, FormattedLeft),
     format_operand(right, Operator, RightTree, RightText, FormattedRight),
     format(string(Text), '~s~a~s', [FormattedLeft, Operator, FormattedRight]).
+
+% generate_equation(List, Equation) holds when Equation joins two ordered
+% expressions that use all of List and have the same integer value.
+generate_equation(List, Equation) :-
+    split_nonempty(List, LeftNumbers, RightNumbers),
+    expression(LeftNumbers, LeftTree, LeftValue),
+    expression(RightNumbers, RightTree, RightValue),
+    LeftValue =:= RightValue,
+    expression_string(LeftTree, LeftText),
+    expression_string(RightTree, RightText),
+    format(string(Equation), '~s=~s', [LeftText, RightText]).
