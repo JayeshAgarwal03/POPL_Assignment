@@ -69,3 +69,15 @@ main :-
         member(p(Name, Dept, Lang, Project), Solution),
         format('~a = [~a, ~a, ~a]~n', [Name, Dept, Lang, Project])
     ).
+
+% count_solutions(Active, N) holds when N is the number of complete
+% assignments that satisfy every clue number in the given list Active.
+count_solutions(Active, N) :-
+    findall(
+        Solution,
+        ( candidate_solution(Solution),
+          forall(member(Number, Active), clue(Number, Solution))
+        ),
+        Solutions
+    ),
+    length(Solutions, N).
