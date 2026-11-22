@@ -56,3 +56,8 @@ clue(7, Solution) :-
 clue(8, Solution) :-
     memberchk(p(_, research, Lang, data), Solution),
     Lang \== javascript.
+
+% solve_p1(Solution) holds when a complete assignment satisfies clues 1 through 8.
+solve_p1(Solution) :-
+    candidate_solution(Solution),
+    forall(between(1, 8, Number), clue(Number, Solution)).
