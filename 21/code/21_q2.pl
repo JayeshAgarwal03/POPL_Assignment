@@ -30,3 +30,10 @@ expression(Numbers, bin(Operator, LeftTree, RightTree), Value) :-
     expression(LeftNumbers, LeftTree, LeftValue),
     expression(RightNumbers, RightTree, RightValue),
     apply_operator(Operator, LeftValue, RightValue, Value).
+
+% operator_precedence(Operator, Precedence) holds when Precedence is
+% the operator's formatting rank. A higher rank means tighter binding.
+operator_precedence('+', 1).
+operator_precedence('-', 1).
+operator_precedence('*', 2).
+operator_precedence('/', 2).
